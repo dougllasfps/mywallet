@@ -1,12 +1,13 @@
 const express = require('express')
 const model = require('../model/usuario')
-
-const app = express()
+const bcrytp = require('bcryptjs')
+const jwt = require('../service/jwtService')
+const authProps = require('../config/auth/authProperties.json')
 
 const router = express.Router();
 
 
-const register = async (req, res) => {
+const registrar = async (req, res) => {
     try{
         const {email} = req.body
 
@@ -14,14 +15,44 @@ const register = async (req, res) => {
             return res.status(400).send({error: 'Usuario existente'})
         }
         const usuario = await model.create(req.body)
-        delete usuario.senha
-        return res.send({usuario})
+        usuario.senha = undefined
+        return res.send({usuario, token: jwt.gerarToken(usuario)})
     }catch(error){
         console.log(error)
         return res.status(400).send({error: 'Erro ao registrar usuario'})
     }
 }
 
-router.post('/registrar', register)
+const autenticar = async (req, res) => {
+    const {email, senha} = req.body
+
+    try{
+
+        const usuario = await model.findOne({email}).select('+senha')
+
+        if(!usuario){
+            res.status(400).send({error: 'Usuario não encontrado.'})
+        }
+
+        if(!await bcrytp.compare(senha, usuario.senha)){
+            res.status(400).send({error: 'Senha incorreta.'})
+        }
+        usuario.senha = undefined
+
+
+        res.send({usuario, token: jwt.gerarToken(usuario)})
+
+    }catch(error){
+        console.log(error)
+        return res.status(400).send({error: 'Erro ao autenticar usuario'})
+    }
+}
+
+const gerarToken = (usuario) => {
+
+}
+
+router.post('/registrar', registrar)
+router.post('/autenticar', autenticar)
 
 module.exports = app => app.use('/auth', router);
