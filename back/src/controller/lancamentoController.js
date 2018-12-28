@@ -5,6 +5,18 @@ const logger = require('../util/logger')
 
 const router = express.Router()
 
+const fetchLancamentos = async (req, res) => {
+    try{
+        const lancamento = req.query
+        logger.debug(`fetching lancamentos to params : ${JSON.stringify(lancamento)}`)
+        const list = await model.find(lancamento)
+        return httpUtil.ok(res, list);
+    }catch(error){
+        logger.error(error)
+        httpUtil.badrequest(res, 'Erro ao buscar lancamentos')
+    }
+}
+
 const post = async (req, res) => {
     try{
         const lancamento = req.body
@@ -17,6 +29,34 @@ const post = async (req, res) => {
     }
 }
 
+const put = async (req, res) => {
+    try{
+        const id = req.params.id
+        const lancamento = req.body
+        logger.debug(`put lancamentos : ${JSON.stringify(lancamento)}`)
+        const savedOne = await model.findByIdAndUpdate(id, lancamento, {new:true})
+        return httpUtil.ok(res, savedOne);
+    }catch(error){
+        logger.error(error.ValidationError || error)
+        httpUtil.badrequest(res, 'Erro ao atualizar lancamento')
+    }
+}
+
+const findOne = async (req, res) => {
+    try{
+        const id = req.params.id
+        logger.debug(`finding one lancamento to id : ${id}`)
+        const result = await model.findById(id)
+        return httpUtil.ok(res, result);
+    }catch(error){
+        logger.error(error)
+        httpUtil.badrequest(res, 'Erro ao buscar lancamento')
+    }
+}
+
+router.get('/', fetchLancamentos)
 router.post('/', post)
+router.put('/:id', put)
+router.get('/:id', findOne)
 
 module.exports = app => app.use('/lancamentos', router)
