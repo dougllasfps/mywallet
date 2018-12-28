@@ -5,7 +5,7 @@ const {signingKey} = authProps
 
 const gerarToken = (usuario) => {
     return jwt.sign({id: usuario.id}, signingKey, {
-        expiresIn: 18000
+        expiresIn: 18000//em segundos
     })
 }
 

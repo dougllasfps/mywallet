@@ -2,7 +2,6 @@ const express = require('express')
 const model = require('../model/usuario')
 const bcrytp = require('bcryptjs')
 const jwt = require('../service/jwtService')
-const authProps = require('../config/auth/authProperties.json')
 
 const router = express.Router();
 

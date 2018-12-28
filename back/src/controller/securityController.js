@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.use(authMid)
 
-router.get('/', (req, res) => {
+router.get('/resource', (req, res) => {
     res.send({auth:true})
 })
 
