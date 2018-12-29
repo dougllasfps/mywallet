@@ -33,8 +33,8 @@ const put = async (req, res) => {
     try{
         const id = req.params.id
         const lancamento = req.body
-        logger.debug(`put lancamentos : ${JSON.stringify(lancamento)}`)
-        const savedOne = await model.findByIdAndUpdate(id, lancamento, {new:true})
+        logger.debug(`put lancamentos : ${JSON.stringify(lancamento)}, for id ${id}`)
+        const savedOne = await model.findOneAndUpdate(id, lancamento, {new:true} )
         return httpUtil.ok(res, savedOne);
     }catch(error){
         logger.error(error.ValidationError || error)
@@ -54,9 +54,9 @@ const findOne = async (req, res) => {
     }
 }
 
+router.get('/:id', findOne)
 router.get('/', fetchLancamentos)
 router.post('/', post)
 router.put('/:id', put)
-router.get('/:id', findOne)
 
 module.exports = app => app.use('/lancamentos', router)
