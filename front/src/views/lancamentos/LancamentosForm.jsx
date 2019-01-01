@@ -19,17 +19,19 @@ class LancamentosForm extends React.Component{
           if (!err) {
             console.log('Received values of form: ', values);
             const resp = this.service.salvar(values)
-            console.log(resp)
+            console.log(resp.data)
           }
         });
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const { params } = this.props.match;
         const {id} = params || null
 
-        if(id && !isNaN(id)){
+        if(id && id !== 'novo'){
             console.log(` carregando entidade para o id: ${id}`)
+            const lancamento = await this.service.carregar(id)
+            console.log(lancamento.data)
         }
     }
 

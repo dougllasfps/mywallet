@@ -12,7 +12,13 @@ export default class LancamentoService {
     }
 
     salvar = async (lancamento) => {
-        const resp = await axios.post(this.baseUrl, {lancamento})
+        console.log(`Lancamento to ${this.baseUrl} , obj: ${JSON.stringify(lancamento)}`)
+        const resp = await axios.post(this.baseUrl, lancamento)
         return resp;
+    }
+
+    carregar = (id) => {
+        const endpoint = `${this.baseUrl}/${id}`
+        return axios.get(endpoint)
     }
 }
