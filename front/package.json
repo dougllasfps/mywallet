@@ -2,9 +2,14 @@
   "name": "my-wallet",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://mywalletbackend.herokuapp.com",
   "dependencies": {
+    "antd": "^3.11.6",
+    "axios": "^0.18.0",
+    "jquery": "^3.3.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.2"
   },
   "scripts": {
