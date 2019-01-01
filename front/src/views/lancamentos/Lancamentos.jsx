@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table, Divider,  Button, Row, Col } from 'antd';
 import { withRouter } from 'react-router-dom'
+import moment from 'moment'
 
 import LancamentoService from '../../api/service/lancamentoService'
 
@@ -35,7 +36,7 @@ class Lancamentos extends React.Component{
         return data.map( item => ({
             key : item.id, 
             descricao: item.descricao, 
-            data: item.data, 
+            data: item.data ? moment(item.data).format('DD/MM/YYYY') : null, 
             valor: item.valor, 
             tipo: item.tipo, 
             status: item.status
