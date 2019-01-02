@@ -1,6 +1,7 @@
 import React from 'react'
 import {Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import AuthService from '../../api/service/authService'
+import {AuthConsumer} from '../../components/auth/AuthContext'
 
 const FormGroup = Form.Item
   
@@ -20,6 +21,7 @@ class Login extends React.Component {
             const {email, senha} = values
             const result = await this.service.autenticarUsuario( email, senha )
             message.success(`${JSON.stringify(result.data)}`)
+            this.props.logar(result.data)
           }catch(error){
             console.log(error.response.data.error)
             message.error(`${error.response.data.error}`)
@@ -64,4 +66,10 @@ class Login extends React.Component {
     }
   }
 
-  export default Form.create()( Login )
+Login =  Form.create()( Login )
+
+export default () => (
+  <AuthConsumer>
+    {ctx => (<Login logar={ctx.logar} />)}
+  </AuthConsumer>
+)

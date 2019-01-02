@@ -3,17 +3,17 @@ import axios from '../config/axios'
 export default class AuthService {
     
     constructor(){
-        this.baseUrl = `${process.env.REACT_APP_BASE_SERVICE_URL}/auth` 
+        this.endpoint = "/auth"
     }
 
     registrarNovoUsuario = (usuario) => {
-        return axios.post(`${this.baseUrl}/registrar`, usuario)
+        console.log(this.endpoint)
+        return axios.post(`${this.endpoint}/registrar`, usuario)
     }
 
     autenticarUsuario = async (email, senha) => {
-        return await axios.post(`${this.baseUrl}/autenticar`, {email, senha})
+        console.log(this.endpoint)
+        return await axios.post(`${this.endpoint}/autenticar`, {email, senha})
     }
-
-    
 
 }
