@@ -11,7 +11,6 @@ class Login extends React.Component {
       this.service = new AuthService();
     }
 
-
     handleSubmit =  (e) => {
       e.preventDefault();
     
@@ -20,7 +19,6 @@ class Login extends React.Component {
           try{
             const {email, senha} = values
             const result = await this.service.autenticarUsuario( email, senha )
-            console.log(result)
             message.success(`${JSON.stringify(result.data)}`)
           }catch(error){
             console.log(error.response.data.error)
