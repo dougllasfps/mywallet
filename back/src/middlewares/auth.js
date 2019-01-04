@@ -1,6 +1,6 @@
 const jwt = require('../service/jwtService')
 
-module.exports = (req, res, next) => {
+module.exports = ( req, res, next ) => {
     const authorization = req.headers.authorization
     
     if(!authorization){
@@ -20,6 +20,7 @@ module.exports = (req, res, next) => {
     }
 
     const result = jwt.autenticarToken(token)
+
     if(result.valid){
         res.idUsuario = result.id
         next()

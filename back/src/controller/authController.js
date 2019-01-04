@@ -24,9 +24,7 @@ const registrar = async (req, res) => {
 
 const autenticar = async (req, res) => {
     const {email, senha} = req.body
-
     try{
-
         const usuario = await model.findOne({email}).select('+senha')
 
         if(!usuario){

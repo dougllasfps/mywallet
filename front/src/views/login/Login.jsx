@@ -20,7 +20,7 @@ class Login extends React.Component {
           try{
             const {email, senha} = values
             const result = await this.service.autenticarUsuario( email, senha )
-            message.success(`${JSON.stringify(result.data)}`)
+            message.success(`${JSON.stringify(result.data, null, 4)}`)
             this.props.logar(result.data)
           }catch(error){
             console.log(error.response.data.error)

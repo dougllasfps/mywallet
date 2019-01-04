@@ -7,10 +7,6 @@ function unauthorized(response, message){
 }
 
 function badrequest(response, message){
-    return responseStatus(response, 400, {error: message})
-}
-
-function badrequest(response, message){
     return responseStatus(response, 404, {error: message || 'item não encontrado'})
 }
 

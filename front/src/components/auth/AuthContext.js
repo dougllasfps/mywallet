@@ -7,19 +7,24 @@ export const AuthConsumer = context.Consumer
 const Provider = context.Provider
 
 const USUARIO_LOGADO = '_usuarioLogado'
+const AUTH_TOKEN = '_authToken'
 
 class AuthContext extends Component{
 
     state = {
-        usuarioLogado : {},
-        token: null,
         autenticado: false
     }
 
-    logar = (dadosLogin) => {
-        console.log(dadosLogin.token)
+    login = (dadosLogin) => {
+        console.log(dadosLogin)
         localStorage.setItem(USUARIO_LOGADO, dadosLogin.usuario)
-        this.setState({...this.state, token: dadosLogin.token, autenticado: true})
+        localStorage.setItem(AUTH_TOKEN, dadosLogin.token)
+        this.setState({...this.state, autenticado: true})
+    }
+
+    logout = () => {
+        localStorage.removeItem(USUARIO_LOGADO)
+        localStorage.removeItem(AUTH_TOKEN)
     }
 
     getUsuarioLogado = () => {
@@ -28,13 +33,16 @@ class AuthContext extends Component{
 
     componentDidMount(){
         const usuarioLogado = this.getUsuarioLogado()
-        const autenticado = null;
+        if(usuarioLogado){
+            this.setState({...this.state, autenticado: true})
+        }
     }
 
     render(){
         const ctx = {
             state: this.state,
-            logar: this.logar
+            logar: this.login,
+            deslogar: this.logout
         }
 
         const isUsuarioAutenticado = this.state.autenticado
