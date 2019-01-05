@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Menubar from './templates/Menubar';
 import { Layout } from 'antd';

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Table, Divider,  Button, Row, Col } from 'antd';
+import { List, Tag ,  Button, Row, Col, Icon } from 'antd';
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
+import currencyFormatter from 'currency-formatter'
 
 import LancamentoService from '../../api/service/lancamentoService'
 
@@ -21,73 +22,68 @@ class Lancamentos extends React.Component{
         this.setState({list: resp})
     }
 
-    editar = (text,item) => {
-        console.log(text)
-        console.log(item)
-        this.props.history.push(`/lancamentos-form/${item.id}`)
+    editar = (id) => {
+        this.props.history.push(`/lancamentos-form/${id}`)
     }
 
     novo = () => {
         this.props.history.push(`/lancamentos-form/novo`)
     }
 
-    dataList = () => {
-        const data = this.state.list || []
-        return data.map( item => ({
-            key : item.id, 
-            descricao: item.descricao, 
-            data: item.data ? moment(item.data).format('DD/MM/YYYY') : null, 
-            valor: item.valor, 
-            tipo: item.tipo, 
-            status: item.status
-        }) );
-    }
-
-    dataTableColumns = () => {
-        return [{
-            title: 'Descrição',
-            dataIndex: 'descricao',
-            key: 'descricao'
-          }, {
-            title: 'Data',
-            dataIndex: 'data',
-            key: 'data',
-          }, {
-            title: 'Valor',
-            dataIndex: 'valor',
-            key: 'valor',
-          }, {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-          }, {
-            title: 'Tipo',
-            dataIndex: 'tipo',
-            key: 'tipo',
-          }, {
-            title: 'Action',
-            key: 'action',
-            render: (text, record) => (
-              <span>
-                <Button type="primary" onClick={() => this.editar(text,record)}>editar</Button>
-                <Divider type="vertical" />
-                <Button type="danger" onClick={() => this.editar(record)}>deletar</Button>
-              </span>
-            ),
-          }];
-          
-    }
-
     render(){
+        const data = this.state.list || []
+
+        const dataList =  data.map( item => ({ 
+            ...item, 
+            id: item._id,
+            data: item.data ? moment(item.data).format('DD/MM/YYYY') : null, 
+            valor: currencyFormatter.format(item.valor, { code: 'BRL' } )
+        }))
+
+        const listActions = (item) => [
+            <a onClick={e => this.editar(item.id)}><Icon type="edit" /></a>,
+            <a onClick={e => this.editar(item.id)}><Icon type="delete" /></a>,
+        ]
+
+        const statusColor = (item) => {
+            if(item.status == 'Pendente'){
+                return 'gold'
+            }
+            return 'green' 
+        }
+
+        const tipoColor = (item) => {
+            if(item.tipo == 'Receita'){
+                return 'blue'
+            }
+            return 'red' 
+        }
+
+        const renderItem = item => (
+            <List.Item key={item.id} actions={listActions(item)}>
+                <List.Item.Meta 
+                        title={item.data}
+                        description={item.valor + ' - ' + item.descricao} />
+                        <Tag color={statusColor(item)} >{item.status}</Tag>
+                        <Tag color={tipoColor(item)} >{item.tipo}</Tag>
+            </List.Item>
+        )
+
         return (
             <React.Fragment>
                 <Row>
+                    <Col md={22} />
                     <Col md={2}>
                         <Button type="primary" onClick={this.novo}>Novo</Button>
                     </Col>
                 </Row>
                 <Row>
-                    <Table columns={this.dataTableColumns()} dataSource={this.dataList()} />
+                    <Col md={24}>
+                    <hr />
+                    </Col>
+                </Row>
+                <Row>
+                    <List dataSource={dataList} renderItem={renderItem} />
                 </Row>    
             </React.Fragment>
         )
