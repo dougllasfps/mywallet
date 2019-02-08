@@ -3,6 +3,8 @@ import { List, Tag ,  Button, Row, Col, Icon } from 'antd';
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import currencyFormatter from 'currency-formatter'
+import { Consumer as ContextConsumer } from '../../components/ContextTest'
+import connect from '../../components/common/withConsumer'
 
 import LancamentoService from '../../api/service/lancamentoService'
 
@@ -17,7 +19,8 @@ class Lancamentos extends React.Component{
         list: []
     }
 
-    async componentWillMount(){
+    async componentDidMount(){
+        console.log('nome do contexto' ,this.props.nome)
         const resp = await this.service.todos()
         this.setState({list: resp})
     }
@@ -89,5 +92,7 @@ class Lancamentos extends React.Component{
         )
     }
 }
+
+Lancamentos = connect( Lancamentos, ContextConsumer  )
 
 export default withRouter(Lancamentos)

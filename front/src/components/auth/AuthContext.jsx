@@ -16,15 +16,16 @@ class AuthContext extends Component{
     }
 
     login = (dadosLogin) => {
-        console.log(dadosLogin)
         localStorage.setItem(USUARIO_LOGADO, dadosLogin.usuario)
         localStorage.setItem(AUTH_TOKEN, dadosLogin.token)
         this.setState({...this.state, autenticado: true})
+        console.log('login()', this.state)
     }
 
     logout = () => {
         localStorage.removeItem(USUARIO_LOGADO)
         localStorage.removeItem(AUTH_TOKEN)
+        this.setState({...this.state, autenticado:false})
     }
 
     getUsuarioLogado = () => {
@@ -36,6 +37,7 @@ class AuthContext extends Component{
         if(usuarioLogado){
             this.setState({...this.state, autenticado: true})
         }
+        console.log('componentDidMount()', this.state)
     }
 
     render(){
@@ -49,7 +51,8 @@ class AuthContext extends Component{
 
         return (
             <Provider value={ctx}>
-                {isUsuarioAutenticado ? this.props.children : <Login /> }
+                {/**isUsuarioAutenticado ? this.props.children : <Login />*/ }
+                {this.props.children}
             </Provider> 
         )
     }

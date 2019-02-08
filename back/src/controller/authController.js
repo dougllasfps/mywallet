@@ -8,12 +8,16 @@ const router = express.Router();
 
 const registrar = async (req, res) => {
     try{
-        const {email} = req.body
+        const { email } = req.body
 
-        if( await model.findOne({email})){
+        console.log( 'request ', req.body)
+
+        let usuario = await model.findOne({email})
+
+        if( usuario ){
             return res.status(400).send({error: 'Usuario existente'})
         }
-        const usuario = await model.create(req.body)
+        usuario = await model.create(req.body)
         usuario.senha = undefined
         return res.send({usuario, token: jwt.gerarToken(usuario)})
     }catch(error){

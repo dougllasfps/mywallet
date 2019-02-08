@@ -7,8 +7,7 @@ import Login from '../../views/login/Login'
 export default class Rotas extends React.Component{
     render(){
         return(
-            <React.Fragment>
-                <Route component={Login} path="/login" />
+            <React.Fragment>               
                 <Route component={Lancamentos} path="/lancamentos" />
                 <Route component={LancamentosForm} path="/lancamentos-form/:id" />
             </React.Fragment>

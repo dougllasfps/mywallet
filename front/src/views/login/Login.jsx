@@ -33,7 +33,8 @@ class Login extends React.Component {
     render() {
       const { getFieldDecorator } = this.props.form;
       return (
-        <Form onSubmit={this.handleSubmit} className="login-form">
+        <div className="container">
+          <Form onSubmit={this.handleSubmit} className="login-form">
           <FormGroup>
             {getFieldDecorator('email', {
               rules: [{ required: true, message: 'Informe o seu email!' }],
@@ -62,14 +63,10 @@ class Login extends React.Component {
             Or <a href="">Cadastrar</a>
           </FormGroup>
         </Form>
+        </div>
       );
     }
   }
 
-Login =  Form.create()( Login )
+  export default  Form.create()( Login )
 
-export default () => (
-  <AuthConsumer>
-    {ctx => (<Login logar={ctx.logar} />)}
-  </AuthConsumer>
-)
