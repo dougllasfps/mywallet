@@ -1,19 +1,19 @@
 //const nock = require('nock')
 const chai = require('chai');
-//const chaiHttp = require('chai-http');
-//const server = require('../src/index.js')
+const chaiHttp = require('chai-http');
+const server = require('../src/index.js')
 
 
 const expect = chai.expect;
 
 
-//chai.use( chaiHttp )
-//chai.should()
+chai.use( chaiHttp )
+chai.should()
 
-/*
+
 describe(' Deve testar todos os recursos do controller de autorização (AuthController) ', () => {
    
-    xit('deve registrar um usuario', (done) => {    
+    it('deve registrar um usuario', (done) => {    
 
         const user = {
             nome: 'Dougllas',
@@ -26,17 +26,18 @@ describe(' Deve testar todos os recursos do controller de autorização (AuthCon
             .post('/auth/registrar')
             .send(user)
             .end((err, res) =>{
-                res.should.have.status(200);
+
+                res.should.have.status(201);
+                res.body.should.have.property('usuario')
+                res.body.should.have.property('token')
+                
+                
                 done();
             })
 
     })
-
-    xit('deve fazer algo', () =>{
-        expect(10).to.equal(10)
-    })
 })
-*/
+
 
 describe('Suite de testes Calculadora', () => {
 

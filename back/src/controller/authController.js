@@ -1,5 +1,5 @@
 const express = require('express')
-const model = require('../model/usuario')
+//const model = require('../model/usuario')
 const bcrytp = require('bcryptjs')
 const jwt = require('../service/jwtService')
 
@@ -12,14 +12,14 @@ const registrar = async (req, res) => {
 
         console.log( 'request ', req.body)
 
-        let usuario = await model.findOne({email})
+        let usuario = null //await model.findOne({email})
 
         if( usuario ){
             return res.status(400).send({error: 'Usuario existente'})
         }
-        usuario = await model.create(req.body)
+        usuario = req.body //await model.create(req.body)
         usuario.senha = undefined
-        return res.send({usuario, token: jwt.gerarToken(usuario)})
+        return res.status(201).send({usuario, token: jwt.gerarToken(usuario)})
     }catch(error){
         console.log(error)
         return res.status(400).send({error: 'Erro ao registrar usuario'})

@@ -1,4 +1,4 @@
-const model = require('../model/lancamento')
+//const model = require('../model/lancamento')
 const express = require('express')
 const httpUtil = require('../util/httpUtil')
 const logger = require('../util/logger')
